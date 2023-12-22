@@ -1025,130 +1025,137 @@ LogoutPage.jsp	Saturday, 3 June, 2023, 7:02 pm
 4 <html> 5 <head>
 6 <meta charset="ISO-8859-1"> 7 <title>Insert title here</title> 8 <style>
 9 11
-10	12 #header{
-11	13 display:flex;
-12	14 justify-content:space-between;
-13	15 align-items:center;
-14 16 }
-15	17 span{
-16	18 font-size:10px;
-17 19 }
-18	20 button{
-19	21 height:14px;
-20	22 display:flex;
-21	23 justify-content:center;
-22	24 align-items:center;
-23	25 text-align:center;
-24	26 border:none;
-25 27
-26 28 }
-27 29 .Controllers{
-28 30
-29 31 display:flex;
-30 32 }
-31	33 .Controllers button{
-32	34 margin-right:15px;
-33 35 }
-34 36
-35	37 #searchContainer p{
-36	38 margin:0px;
-37	39 font-size:12px;
-38	40 padding-top:10px;
-39	41 padding-bottom:8px;
-40 42 }
-41	43 #searchContainer input{
-42	44 width:200px;
-43	45 border:1px solid cyan; 44 46 margin-bottom:8px;
-45 47 }
-46	48 #searchContainer button{
-47	49 width:200px;
-48	50 height:20px;
-49 51 }
-50	52 #crossingDetails{
-51	53 margin-top:20px;
-52 54 }
-53	55 #crossingDetails p{
-54	56 margin:0px;
-55	57 padding:8px;
-56	58 color:gray;
-57	59 font-size:small;
-58 60 }
-59	61 #crossingDetails h5{
+#header{
+ display:flex;
+justify-content:space-between;
+ align-items:center;
+ }
+ span{
+font-size:10px;
+ }
+ button{
+ height:14px;
+display:flex;
+justify-content:center;
+ align-items:center;
+ text-align:center;
+ border:none;
+ }
+ .Controllers{
+
+ display:flex;
+}
+Controllers button{
+ margin-right:15px;
+ }
+#searchContainer p{
+ margin:0px;
+font-size:12px;
+ padding-top:10px;
+padding-bottom:8px;
+}
+#searchContainer input{
+width:200px;
+border:1px solid cyan; 
+margin-bottom:8px;
+ }
+#searchContainer button{
+width:200px;
+ height:20px;
+ }
+ #crossingDetails{
+ margin-top:20px;
+ }
+#crossingDetails p{
+ margin:0px;
+padding:8px;
+color:gray;
+ font-size:small;
+}
+ #crossingDetails h5{
  
 
-60	62 margin:0px;
-61	63 padding:8px;
-62	64 font-size:medium;
-63
-64 65 }
-65	66 #AddFav{
-66	67 width:120px;
-67	68 margin:8px;
-68	69 margin-top:0px;
-69	70 background-color:white;
-70	71 color:gray;
-71	72 font-size:8px;
-72	73 font-weight:bold;
-73	74 height:20px;
-74 75 }
-75	76 #crossingDetails span{
-76	77 color:black;
-77	78 font-size:15px;
-78	79 font-weight:bold;
-79 80 }
-80
-81
-82 </style> 83
-84	</head>
-85	<body> 86 87
-87	88 <div id="header">
-88	89 <h3>Search Railway Crossing</h3>
-89	90 <button id="logoutButton"><span>Logout</span></button>
-90 91 </div>
-91 92
-92	93 <div class="Controllers">
-93	94 <button id="Home"><span>All</span></button>
-94	95 <button id="favCrossing"><span>Favourite Crossings</span></button> 95 96 </div>
-96 97
-97	98 <div id="searchContainer">
-98	99 <form action="SearchCrossingRetriever"> 99 100 <p>Search Railway Crossing</p>
-100 101 <input type="search" name="searchCrossing" id="searchCrossing"> 101 102 <button id="searchButton">Search</button>
-102 103 </form>
-103 104 </div>
-104 105
-105	106 <%String prop = request.getParameter("prop");
-106	if(prop==null){
-107	prop="none";
-108 } 109 %> 110 111
-111 112 <div id="resultContainer" style="display:<%=prop%>"> 112 113 <c:forEach var="crossing" items="${Crossings}">
-113 114 <div id="crossingDetails" style="border: 1px solid gray;"> 114 115 <h5>${crossing.cName}</h5>
-115 116 <p>Crossing status: <span style="color: white; background-color: 116 ${crossing.status == 'open' ? 'green' : 'red'}; padding:2px; 117 height:7px;">"${crossing.status}"</span></p>
-118	117 <p>Person In Charge: <span>${crossing.pName}</span></p>
+ margin:0px;
+padding:8px;
+font-size:medium;
+ }
+ #AddFav{
+width:120px;
+ margin:8px;
+ margin-top:0px;
+ background-color:white;
+color:gray;
+font-size:8px;
+font-weight:bold;
+ height:20px;
+}
+ #crossingDetails span{
+ color:black;
+ font-size:15px;
+ font-weight:bold;
+}
+
+ </style> 83
+	</head>
+	<body> 
+ <div id="header">
+ <h3>Search Railway Crossing</h3>
+ <button id="logoutButton"><span>Logout</span></button>
+</div>
+ <div class="Controllers">
+ <button id="Home"><span>All</span></button>
+ <button id="favCrossing"><span>Favourite Crossings</span></button> 95 96 </div>
+ <div id="searchContainer">
+ <form action="SearchCrossingRetriever"> 99 100 <p>Search Railway Crossing</p>
+<input type="search" name="searchCrossing" id="searchCrossing"> 101 102 <button id="searchButton">Search</button>
+</form>
+</div>
+ <%String prop = request.getParameter("prop");
+	if(prop==null){
+	prop="none";
+ } 
+ %> 
+ <div id="resultContainer" style="display:<%=prop%>"> 
+	 <c:forEach var="crossing" items="${Crossings}">
+ <div id="crossingDetails" style="border: 1px solid gray;"> 
+	 <h5>${crossing.cName}</h5>
+ <p>Crossing status: <span style="color: white; background-color: 
+			     ${crossing.status == 'open' ? 'green' : 'red'}; padding:2px; 
+			     height:7px;">"${crossing.status}"</span></p>
+ <p>Person In Charge: <span>${crossing.pName}</span></p>
  
 
-119	118 <p>Train Schedule: <span>${crossing.trainSchedule}</span></p> 120 119 <p>Landmark: <span>${crossing.landmark}</span></p>
-121 120 <p>Address: <span>${crossing.address}</span></p>
-122 121
-123	122 <form action="AddToFavController" method="post">
-124	123 <input type="hidden" name="crossingName" value="${crossing.cName}"> 125 124 <input type="hidden" name="crossingStatus" value="${crossing.status}"> 126 125 <input type="hidden" name="personInCharge" value="${crossing.pName}"> 127 126 <input type="hidden" name="trainSchedule"
-128
-129	value="${crossing.trainSchedule}">
-130	127 <input type="hidden" name="landmark" value="${crossing.landmark}"> 131 128 <input type="hidden" name="address" value="${crossing.address}"> 132 129 <input type="submit" value="ADD TO FAVOURITE" id="AddFav">
-133 130 </form>
-134 131 </div>
-135 132 </c:forEach>
-136 133 </div>
-137 134
-138	135 <script>
-139	136 const logoutButton = document.getElementById('logoutButton'); 140 137 logoutButton.addEventListener('click', function() {
-141 138 window.location.href = 'LogoutPage.jsp'; 142 139 });
-143 140
-144 141 const homeButton = document.getElementById("Home"); 145 142 homeButton.addEventListener('click', function() { 146 143 window.location.href = "Home.jsp";
-147 144 });
-148 145
-149 146 const favButton = document.getElementById("favCrossing"); 150 147 favButton.addEventListener('click', function() {
-151 148 window.location.href = "FavCrossings.jsp"; 152 149 });
-153 150
-154 151 </script>
-155 152 </body>
-156 153 </html>
+ <p>Train Schedule: <span>${crossing.trainSchedule}</span></p> 
+ <p>Landmark: <span>${crossing.landmark}</span></p>
+ <p>Address: <span>${crossing.address}</span></p>
+
+ <form action="AddToFavController" method="post">
+ <input type="hidden" name="crossingName" value="${crossing.cName}"> 
+	 <input type="hidden" name="crossingStatus" value="${crossing.status}"> 
+	 <input type="hidden" name="personInCharge" value="${crossing.pName}">
+	 <input type="hidden" name="trainSchedule"
+	value="${crossing.trainSchedule}">
+  <input type="hidden" name="landmark" value="${crossing.landmark}"> 
+	 <input type="hidden" name="address" value="${crossing.address}"> 
+	 <input type="submit" value="ADD TO FAVOURITE" id="AddFav">
+ </form>
+ </div>
+ </c:forEach>
+ </div>
+
+ <script>
+ const logoutButton = document.getElementById('logoutButton'); 
+	 logoutButton.addEventListener('click', function() {
+ window.location.href = 'LogoutPage.jsp';
+	 });
+
+ const homeButton = document.getElementById("Home"); 145 142 homeButton.addEventListener('click', function() {  window.location.href = "Home.jsp";
+ });
+
+ const favButton = document.getElementById("favCrossing"); 150 147 favButton.addEventListener('click', function() {
+ window.location.href = "FavCrossings.jsp";
+ });
+
+ </script>
+ </body>
+</html>
