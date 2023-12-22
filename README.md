@@ -21,397 +21,429 @@ import javax.servlet.http.HttpServletResponse;
 	String personInCharge = request.getParameter("personInCharge");
 	String trainSchedule = request.getParameter("trainSchedule");
 	String landmark = request.getParameter("landmark");
-27	String address = request.getParameter("address"); 28
-29	AddFavCrossing afc = new AddFavCrossing();
-30	afc.setcName(crossingName);
-31	afc.setStatus(crossingStatus);
-32	afc.setpName(personInCharge);
-33	afc.setTrainSchedule(trainSchedule);
-34	afc.setLandmark(landmark);
-35	afc.setAddress(address); 36
-37
-38	SessionFactory sf = HibDbCon.getSessionFactory();
-39	Session session = sf.openSession(); 40
-41	session.beginTransaction();
-42	session.save(afc);
-43	session.getTransaction().commit();
-44	session.close(); 45
-46 response.sendRedirect("Home.jsp"); 47
-48 }
-49 protected void doPost(HttpServletRequest request, HttpServletResponse response) 50 throws ServletException, IOException {
-51
-52 doGet(request, response); 53 }
-54
-55 }
+	String address = request.getParameter("address"); 28
+	AddFavCrossing afc = new AddFavCrossing();
+	afc.setcName(crossingName);
+	afc.setStatus(crossingStatus);
+	afc.setpName(personInCharge);
+	afc.setTrainSchedule(trainSchedule);
+	afc.setLandmark(landmark);
+	afc.setAddress(address); 
+
+	SessionFactory sf = HibDbCon.getSessionFactory();
+	Session session = sf.openSession(); 40
+	session.beginTransaction();
+	session.save(afc);
+	session.getTransaction().commit();
+	session.close(); 45
+        response.sendRedirect("Home.jsp"); 47
+ }
+ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+ throws ServletException, IOException {
+
+ doGet(request, response); 
+ }
+
+ }
  
-DeleteCrossing.java	Saturday, 3 June, 2023, 6:58 pm
+DeleteCrossing.java	
+
+
+
+	import java.io.IOException;
+	import javax.servlet.ServletException;
+        import javax.servlet.annotation.WebServlet; 
+	import javax.servlet.http.HttpServlet; 
+        import javax.servlet.http.HttpServletRequest; 
+        import javax.servlet.http.HttpServletResponse;
+
+	import org.hibernate.Session;
+	import org.hibernate.SessionFactory;
+	import org.hibernate.query.Query; 14
+	@WebServlet("/deleteCrossing")
+	public class DeleteCrossing extends HttpServlet
+ { 
+
+         protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+	 throws ServletException, IOException {
+
+        String cName = request.getParameter("crossingName"); 
+	SessionFactory sf = HibDbCon.getSessionFactory();
+	Session session = sf.openSession();
+	session.beginTransaction();
+	Query q = session.createQuery("delete from CrossingDetails where cName =:name");
+	q.setParameter("name", cName);
+	q.executeUpdate();
+	session.getTransaction().commit();
+	response.sendRedirect("AdminHomePage.jsp"); 
+ }
+ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+ throws ServletException, IOException {
+
+ doGet(request, response); 
+ }
+
+ }
+ 
+HibDbCon.java	
+
+import   org.hibernate.SessionFactory;
+import  org.hibernate.boot.Metadata; 
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+public class HibDbCon { 
+private static SessionFactory sessionfactory; 
+ { 
+ StandardServiceRegistry sr = new StandardServiceRegistryBuilder().configure 14 ("hibernate.cfg.xml").build();
+Metadata mt = new MetadataSources(sr).getMetadataBuilder().build(); 
+sessionfactory = mt.getSessionFactoryBuilder().build(); 
+}
+
+public static SessionFactory getSessionFactory() {
+return sessionfactory; 
+}
+
+ }
+
+
+ 
+HomePage.java	
 
 1
-2
-3	import java.io.IOException;
-4	import        javax.servlet.ServletException; 5 import  javax.servlet.annotation.WebServlet; 6  import   javax.servlet.http.HttpServlet; 7 import javax.servlet.http.HttpServletRequest; 8 import javax.servlet.http.HttpServletResponse; 9
-10
-11	import org.hibernate.Session;
-12	import org.hibernate.SessionFactory;
-13	import org.hibernate.query.Query; 14
-15	@WebServlet("/deleteCrossing")
-16	public class DeleteCrossing extends HttpServlet { 17
-18
-19 protected void doGet(HttpServletRequest request, HttpServletResponse response) 20 throws ServletException, IOException {
-21
-22 String cName = request.getParameter("crossingName"); 23
-24	SessionFactory sf = HibDbCon.getSessionFactory();
-25	Session session = sf.openSession();
-26	session.beginTransaction();
-27	Query q = session.createQuery("delete from CrossingDetails where cName =:name");
-28	q.setParameter("name", cName);
-29	q.executeUpdate();
-30	session.getTransaction().commit();
-31	response.sendRedirect("AdminHomePage.jsp"); 32
-33 }
-34 protected void doPost(HttpServletRequest request, HttpServletResponse response) 35 throws ServletException, IOException {
-36
-37 doGet(request, response); 38 }
-39
-40 }
- 
-HibDbCon.java	Saturday, 3 June, 2023, 6:59 pm
+2 import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import  javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-1   import   org.hibernate.SessionFactory; 2  import  org.hibernate.boot.Metadata; 3 import org.hibernate.boot.MetadataSources;
-4  import   org.hibernate.boot.registry.StandardServiceRegistry; 5 import org.hibernate.boot.registry.StandardServiceRegistryBuilder; 6
-7 public class HibDbCon { 8
-9 private static SessionFactory sessionfactory; 10
-11 static{ 12
-13 StandardServiceRegistry sr = new StandardServiceRegistryBuilder().configure 14 ("hibernate.cfg.xml").build();
-15
-16 Metadata mt = new MetadataSources(sr).getMetadataBuilder().build(); 17
-18 sessionfactory = mt.getSessionFactoryBuilder().build(); 19
-20 }
-21
-22	public static SessionFactory getSessionFactory() {
-23	return sessionfactory; 24 }
-25
-26 }
-27
-28
- 
-HomePage.java	Saturday, 3 June, 2023, 6:59 pm
+@WebServlet("/HomePage")
+public class HomePage extends HttpServlet { 13
 
-1
-2 import java.io.IOException; 3 import java.io.PrintWriter; 4
-5  import   javax.servlet.ServletException; 6 import  javax.servlet.annotation.WebServlet; 7  import   javax.servlet.http.HttpServlet; 8 import javax.servlet.http.HttpServletRequest; 9 import javax.servlet.http.HttpServletResponse;
-10
-11	@WebServlet("/HomePage")
-12	public class HomePage extends HttpServlet { 13
-14
-15 protected void doGet(HttpServletRequest request, HttpServletResponse response) 16 throws ServletException, IOException {
-17
-18 PrintWriter out = response.getWriter(); 19
-20	out.println("Welcome to home page");
-21	response.sendRedirect("Home.jsp"); 22 }
-23 protected void doPost(HttpServletRequest request, HttpServletResponse response) 24 throws ServletException, IOException {
-25
-26 doGet(request, response); 27 }
-28
-29 }
-30
+protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+throws ServletException, IOException {
+PrintWriter out = response.getWriter(); 
+out.println("Welcome to home page");
+response.sendRedirect("Home.jsp"); 
+}
+protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+throws ServletException, IOException {
+
+doGet(request, response); 
+}
+
+ }
+
  
 
-1
-2
-3 import java.io.IOException; 4 import java.util.List;
-5
-6  import  javax.servlet.Filter; 7 import javax.servlet.FilterChain; 8 import javax.servlet.FilterConfig;
-9 import javax.servlet.ServletException; 10 import javax.servlet.ServletRequest;
-11	import javax.servlet.ServletResponse;
-12	import javax.servlet.annotation.WebFilter;
-13	import javax.servlet.annotation.WebServlet;
-14	import javax.servlet.http.HttpFilter;
-15	import javax.servlet.http.HttpServlet;
-16	import javax.servlet.http.HttpServletRequest;
-17	import javax.servlet.http.HttpServletResponse;
-18
-19	import org.hibernate.Query;
-20	import org.hibernate.Session;
-21	import org.hibernate.SessionFactory;
-22
-23 import java.io.IOException;
-24
-25	@WebFilter("/HomePage")
-26	public class LoginToHomeFilter extends HttpFilter implements Filter { 27
-28	public LoginToHomeFilter() {
-29	super(); 30
-31 }
-32
-33
-34 public void destroy() { 35
-36 }
-37 public void doFilter(ServletRequest request, ServletResponse response, 38 FilterChain chain) throws IOException, ServletException {
-39
-40	HttpServletRequest req = (HttpServletRequest)request;
-41	HttpServletResponse res = (HttpServletResponse)response; 42
-43	String name = req.getParameter("email");
-44	String pwd = req.getParameter("password"); 45
-46	SessionFactory sf = HibDbCon.getSessionFactory();
-47	Session session = sf.openSession(); 48
-49	Query<Object[]> q = session.createQuery("select email, password from User");
-50	List<Object[]> resultList = q.getResultList(); 51
-52	boolean found = false;
-53	for (Object[] userCredentials : resultList) {
-54	String email = (String) userCredentials[0];
-55	String password = (String) userCredentials[1];
-56	if (email.equals(name) && password.equals(pwd)) {
-57	found = true;
-58	chain.doFilter(request, response);
-59	break; // Exit the loop since we found a match
+
+
+ import java.io.IOException;
+ import java.util.List;
+
+import  javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpFilter;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import java.io.IOException;
+
+@WebFilter("/HomePage")
+public class LoginToHomeFilter extends HttpFilter implements Filter  
+{ 
+public LoginToHomeFilter() {
+super();
+}
+ public void destroy() { 
+ }
+ public void doFilter(ServletRequest request, ServletResponse response,  FilterChain chain) throws IOException, ServletException {
+	HttpServletRequest req = (HttpServletRequest)request;
+	HttpServletResponse res = (HttpServletResponse)response; 
+	String name = req.getParameter("email");
+	String pwd = req.getParameter("password"); 
+	SessionFactory sf = HibDbCon.getSessionFactory();
+	Session session = sf.openSession(); 
+	Query<Object[]> q = session.createQuery("select email, password from User");
+	List<Object[]> resultList = q.getResultList(); 
+	boolean found = false;
+	for (Object[] userCredentials : resultList) {
+	String email = (String) userCredentials[0];
+	String password = (String) userCredentials[1];
+	if (email.equals(name) && password.equals(pwd)) {
+	found = true;
+        chain.doFilter(request, response);
+	break; // Exit the loop since we found a match
  
 
-60 }
-61 }
-62
-63 if (!found) { 64
-65
-66 if(name.equalsIgnoreCase("admin123@gmail.com") && pwd.contentEquals 67 ("admin123")) {
-68	res.sendRedirect("AdminHomePage.jsp");
-69	}else {
-70	res.sendRedirect("index.jsp"); 71 }
-72
-73 }
-74
-75 }
-76
-77 public void init(FilterConfig fConfig) throws ServletException { 78
-79 }
-80
-81 }
- 
-RegisterNullFilter.java	Saturday, 3 June, 2023, 6:59 pm
+ }
+ }
 
-1
-2	import java.io.IOException;
-3	import java.io.PrintWriter;
-4	import javax.servlet.Filter;
-5	import javax.servlet.FilterChain;
-6	import javax.servlet.FilterConfig;
-7	import javax.servlet.ServletException;
-8	import javax.servlet.ServletRequest;
-9	import javax.servlet.ServletResponse;
-10	import javax.servlet.annotation.WebFilter;
-11	import javax.servlet.http.HttpServletRequest;
-12	import javax.servlet.http.HttpServletResponse; 13
-14	@WebFilter("/URegister")
-15	public class RegisterNullFilter implements Filter { 16
-17 public void destroy() { 18 }
-19
-20 public void doFilter(ServletRequest request, ServletResponse response, 21 FilterChain chain)
-22 throws IOException, ServletException { 23
-24 HttpServletRequest Request = (HttpServletRequest) request; 25 HttpServletResponse Response = (HttpServletResponse) response; 26
-27 PrintWriter out = Response.getWriter(); 28
-29	String username = Request.getParameter("username");
-30	String password = Request.getParameter("password");
-31	String email = Request.getParameter("email"); 32
-33
-34 if (username == null || username.isEmpty() || password == null || 35 password.isEmpty() || email == null
-36 || email.isEmpty()) { 37
-38
-39	out.println("<html><body>");
-40	out.println(username+", "+password+", "+email);
-41	out.println("<h4>Fields cannot be empty..</h4>");
-42	out.println("<a href='Register.jsp'>Click here to Register</a>");
-43	out.println("</body></html>");
-44	} else {
-45	chain.doFilter(request, response); 46 }
-47 }
-48
-49 public void init(FilterConfig fConfig) throws ServletException { 50 }
-51 }
-52
- 
-RemoveFromFavController.java	Saturday, 3 June, 2023, 7:00 pm
+if (!found) { 
 
-1
-2
-3	import java.io.IOException;
-4	import        javax.servlet.ServletException; 5 import  javax.servlet.annotation.WebServlet; 6  import   javax.servlet.http.HttpServlet; 7 import javax.servlet.http.HttpServletRequest; 8 import javax.servlet.http.HttpServletResponse; 9
-10	import org.hibernate.Query;
-11	import org.hibernate.Session;
-12	import org.hibernate.SessionFactory;
-13
-14	@WebServlet("/RemoveFromFavController")
-15	public class RemoveFromFavController extends HttpServlet {
-16	private static final long serialVersionUID = 1L; 17
-18
-19 protected void doGet(HttpServletRequest request, HttpServletResponse response) 20 throws ServletException, IOException {
-21
-22 String crossingName = request.getParameter("crossingName"); 23
-24	SessionFactory sf = HibDbCon.getSessionFactory();
-25	Session session = sf.openSession();
-26	session.beginTransaction();
-27	Query<?> q = session.createQuery("DELETE FROM AddFavCrossing WHERE cName =
+ if(name.equalsIgnoreCase("admin123@gmail.com") && pwd.contentEquals  ("admin123")) {
+res.sendRedirect("AdminHomePage.jsp");
+	}
+ else {
+res.sendRedirect("index.jsp"); 71 }
+
+ }
+
+ }
+
+public void init(FilterConfig fConfig) throws ServletException { 78
+}
+
+ }
+ 
+RegisterNullFilter.java	
+
+
+	import java.io.IOException;
+	import java.io.PrintWriter;
+	import javax.servlet.Filter;
+	import javax.servlet.FilterChain;
+	import javax.servlet.FilterConfig;
+	import javax.servlet.ServletException;
+	import javax.servlet.ServletRequest;
+	import javax.servlet.ServletResponse;
+	import javax.servlet.annotation.WebFilter;
+	import javax.servlet.http.HttpServletRequest;
+	import javax.servlet.http.HttpServletResponse; 13
+	@WebFilter("/URegister")
+	public class RegisterNullFilter implements Filter { 16
+ public void destroy() { 
+ }
+
+public void doFilter(ServletRequest request, ServletResponse response,  FilterChain chain)
+throws IOException, ServletException { 23
+HttpServletRequest Request = (HttpServletRequest) request; 25 HttpServletResponse Response = (HttpServletResponse) response; 26
+PrintWriter out = Response.getWriter(); 28
+String username = Request.getParameter("username");
+String password = Request.getParameter("password");
+String email = Request.getParameter("email"); 32
+
+if (username == null || username.isEmpty() || password == null || 35 password.isEmpty() || email == null
+ || email.isEmpty()) { 
+
+out.println("<html><body>");
+out.println(username+", "+password+", "+email);
+out.println("<h4>Fields cannot be empty..</h4>");
+out.println("<a href='Register.jsp'>Click here to Register</a>");
+out.println("</body></html>");
+	} 
+ else {
+chain.doFilter(request, response); 46 }
+ }
+
+public void init(FilterConfig fConfig) throws ServletException { 
+}
+ }
+
+ 
+RemoveFromFavController.java	
+
+
+import java.io.IOException;
+import        javax.servlet.ServletException;
+ import  javax.servlet.annotation.WebServlet;
+ import   javax.servlet.http.HttpServlet;
+ import javax.servlet.http.HttpServletRequest;
+ import javax.servlet.http.HttpServletResponse;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+@WebServlet("/RemoveFromFavController")
+public class RemoveFromFavController extends HttpServlet {
+private static final long serialVersionUID = 1L; 
+
+protected void doGet(HttpServletRequest request, HttpServletResponse response)  throws ServletException, IOException {
+
+String crossingName = request.getParameter("crossingName"); 23
+SessionFactory sf = HibDbCon.getSessionFactory();
+Session session = sf.openSession();
+session.beginTransaction();
+Query<?> q = session.createQuery("DELETE FROM AddFavCrossing WHERE cName =
 :crossingName");
-28	q.setParameter("crossingName", crossingName);
-29	q.executeUpdate();
-30	session.getTransaction().commit();
-31	session.close();
-32	response.sendRedirect("FavCrossings.jsp"); 33
-34
-35 }
-36 protected void doPost(HttpServletRequest request, HttpServletResponse response) 37 throws ServletException, IOException {
-38	// TODO Auto-generated method stub
-39	doGet(request, response); 40 }
-41
-42 }
- 
-SearchCrossingRetriever.java	Saturday, 3 June, 2023, 7:00 pm
+q.setParameter("crossingName", crossingName);
+q.executeUpdate();
+session.getTransaction().commit();
+session.close();
+response.sendRedirect("FavCrossings.jsp"); 33
 
-1
-2
-3 import java.io.IOException; 4 import java.io.PrintWriter; 5 import java.util.List;
-6
-7 import  javax.servlet.ServletException; 8 import javax.servlet.annotation.WebServlet; 9 import javax.servlet.http.HttpServlet;
-10	import javax.servlet.http.HttpServletRequest;
-11	import javax.servlet.http.HttpServletResponse;
-12	import javax.servlet.http.HttpSession;
-13
-14	import org.hibernate.Query;
-15	import org.hibernate.Session;
-16	import org.hibernate.SessionFactory;
-17
-18 import com.daoClasses.CrossingDetails;
-19
-20	@WebServlet("/SearchCrossingRetriever")
-21	public class SearchCrossingRetriever extends HttpServlet {
-22	private static final long serialVersionUID = 1L; 23
-24 protected void doGet(HttpServletRequest request, HttpServletResponse response) 25 throws ServletException, IOException {
-26	PrintWriter out = response.getWriter();
-27	String sName = request.getParameter("searchCrossing"); 28
-29	SessionFactory sf = HibDbCon.getSessionFactory();
-30	Session session = sf.openSession();
-31	Query<CrossingDetails> query = session.createQuery("from CrossingDetails where cName like :searchName");
-32	query.setParameter("searchName", "%" + sName + "%");
-33	List<CrossingDetails> crossings = query.getResultList(); 34
-35	HttpSession httpsession = request.getSession();
-36	httpsession.setAttribute("Crossings", crossings);
-37	response.sendRedirect("SearchCrossing.jsp?prop=block"); 38
-39
-40 }
-41 protected void doPost(HttpServletRequest request, HttpServletResponse response) 42 throws ServletException, IOException {
-43
-44 doGet(request, response); 45 }
-46
-47 }
-48
- 
-UserRegister.java	Saturday, 3 June, 2023, 7:00 pm
+ }
+ protected void doPost(HttpServletRequest request, HttpServletResponse response)  throws ServletException, IOException {
+	// TODO Auto-generated method stub
+	doGet(request, response); 40 }
 
-1
-2	import java.io.IOException;
-3	import javax.servlet.ServletException;
-4	import javax.servlet.annotation.WebServlet;
-5	import javax.servlet.http.HttpServlet;
-6	import javax.servlet.http.HttpServletRequest;
-7	import javax.servlet.http.HttpServletResponse;
-8	import javax.servlet.http.HttpSession; 9
-10 import com.daoClasses.User; 11
-12	import org.hibernate.Session;
-13	import org.hibernate.SessionFactory; 14
-15	@WebServlet("/URegister")
-16	public class UserRegister extends HttpServlet {
-17	private static final long serialVersionUID = 1L; 18
-19 protected void doGet(HttpServletRequest request, HttpServletResponse response) 20 throws ServletException, IOException {
-21
-22	String username = request.getParameter("username");
-23	String password = request.getParameter("password");
-24	String email = request.getParameter("email"); 25
-26 User userDetails = new User(); 27
-28	userDetails.setUname(username);
-29	userDetails.setPassword(password);
-30	userDetails.setEmail(email);
-31	//System.out.println(username+"; "+password+": "+email); 32
-33	SessionFactory sf = HibDbCon.getSessionFactory();
-34	Session session = sf.openSession(); 35
-36	session.beginTransaction();
-37	session.save(userDetails);
-38	session.getTransaction().commit();
-39	session.close();
-40	// HttpSession httpSession = request.getSession();
-41	// httpSession.setAttribute("userdetails", userDetails);
-42	response.sendRedirect("LoginPage.jsp"); 43
-44 }
-45 protected void doPost(HttpServletRequest request, HttpServletResponse response) 46 throws ServletException, IOException {
-47
-48 doGet(request, response); 49 }
-50
-51 }
-52
+ }
+ 
+SearchCrossingRetriever.java	
+
+
+ import java.io.IOException; 
+ import java.io.PrintWriter;
+ import java.util.List;
+
+import  javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import com.daoClasses.CrossingDetails;
+
+@WebServlet("/SearchCrossingRetriever")
+public class SearchCrossingRetriever extends HttpServlet {
+private static final long serialVersionUID = 1L; 23
+protected void doGet(HttpServletRequest request, HttpServletResponse response)  throws ServletException, IOException {
+PrintWriter out = response.getWriter();
+String sName = request.getParameter("searchCrossing"); 28
+SessionFactory sf = HibDbCon.getSessionFactory();
+Session session = sf.openSession();
+Query<CrossingDetails> query = session.createQuery("from CrossingDetails where cName like :searchName");
+query.setParameter("searchName", "%" + sName + "%");
+List<CrossingDetails> crossings = query.getResultList(); 34
+	HttpSession httpsession = request.getSession();
+	httpsession.setAttribute("Crossings", crossings);
+	response.sendRedirect("SearchCrossing.jsp?prop=block"); 38
+
+ }
+ protected void doPost(HttpServletRequest request, HttpServletResponse response) 42 throws ServletException, IOException {
+
+ doGet(request, response); 45 }
+
+ }
+
+ 
+UserRegister.java	
+
+
+	import java.io.IOException;
+	import javax.servlet.ServletException;
+	import javax.servlet.annotation.WebServlet;
+	import javax.servlet.http.HttpServlet;
+	import javax.servlet.http.HttpServletRequest;
+	import javax.servlet.http.HttpServletResponse;
+	import javax.servlet.http.HttpSession; 
+         import com.daoClasses.User; 
+	import org.hibernate.Session;
+	import org.hibernate.SessionFactory; 
+	@WebServlet("/URegister")
+	public class UserRegister extends HttpServlet {
+	private static final long serialVersionUID = 1L; 
+        protected void doGet(HttpServletRequest request, HttpServletResponse response) 20 throws ServletException, IOException {
+
+	String username = request.getParameter("username");
+	String password = request.getParameter("password");
+	String email = request.getParameter("email"); 
+        User userDetails = new User(); 
+	userDetails.setUname(username);
+	userDetails.setPassword(password);
+	userDetails.setEmail(email);
+	//System.out.println(username+"; "+password+": "+email); 32
+	SessionFactory sf = HibDbCon.getSessionFactory();
+	Session session = sf.openSession(); 35
+	session.beginTransaction();
+	session.save(userDetails);
+	session.getTransaction().commit();
+	session.close();
+	// HttpSession httpSession = request.getSession();
+	// httpSession.setAttribute("userdetails", userDetails);
+	response.sendRedirect("LoginPage.jsp"); 43
+ }
+ protected void doPost(HttpServletRequest request, HttpServletResponse response) 46 throws ServletException, IOException {
+
+ doGet(request, response); 49 }
+
+ }
+
  
 
-1	package com.daoClasses;
-2	import javax.persistence.Column; 3 import javax.persistence.Entity; 4 import javax.persistence.Id; 5 import javax.persistence.Table; 6
-7	@Entity
-8	@Table(name="favcrossings")
-9	public class AddFavCrossing { 10
-11	@Id
-12	@Column(name="crossing_name")
-13	private String cName;
-14	@Column(name="crossing_status")
-15	private String status;
-16	@Column(name="person_name")
-17	private String pName;
-18	@Column(name="train_schedule")
-19	private String trainSchedule;
-20	@Column(name="landmark")
-21	private String landmark;
-22	@Column(name="address")
-23	private String address; 24
-25	public String getcName() {
-26	return cName; 27 }
-28
-29	public void setcName(String cName) {
-30	this.cName = cName; 31 }
-32
-33	public String getpName() {
-34	return pName; 35 }
-36
-37	public void setpName(String pName) {
-38	this.pName = pName; 39 }
-40
-41	public String getTrainSchedule() {
-42	return trainSchedule; 43 }
-44
-45	public void setTrainSchedule(String trainSchedule2) {
-46	this.trainSchedule = trainSchedule2; 47 }
-48
-49	public String getLandmark() {
-50	return landmark; 51 }
-52
-53	public void setLandmark(String landmark) {
+package com.daoClasses;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table; 
+@Entity
+@Table(name="favcrossings")
+public class AddFavCrossing { 10
+@Id
+@Column(name="crossing_name")
+private String cName;
+@Column(name="crossing_status")
+private String status;
+@Column(name="person_name")
+private String pName;
+@Column(name="train_schedule")
+private String trainSchedule;
+@Column(name="landmark")
+private String landmark;
+@Column(name="address")
+private String address; 24
+public String getcName() {
+return cName; 27 }
+
+public void setcName(String cName) {
+this.cName = cName; 31 }
+
+public String getpName() {
+return pName; 35 }
+
+public void setpName(String pName) {
+this.pName = pName; 39 }
+
+public String getTrainSchedule() {
+return trainSchedule; 43 }
+
+public void setTrainSchedule(String trainSchedule2) {
+this.trainSchedule = trainSchedule2; 47 }
+
+public String getLandmark() {
+return landmark; 51 }
+
+public void setLandmark(String landmark) {
 54	this.landmark = landmark; 55 }
 56
 57	public String getAddress() {
 58	return address; 59 }
  
 
-60
-61	public void setAddress(String address) {
-62	this.address = address; 63 }
-64
-65	public String getStatus() {
-66	return status; 67
-68 }
-69
-70	public void setStatus(String status) {
-71	this.status = status; 72 }
-73 }
-74
-75
-76
+	public void setAddress(String address) {
+	this.address = address; 63 }
+
+	public String getStatus() {
+	return status; 67
+}
+	public void setStatus(String status) {
+	this.status = status; 72 }
+ }
+
  
 
-1 package com.daoClasses; 2
-3
-4	import javax.persistence.Column;
-5	import javax.persistence.Entity;
+ package com.daoClasses; 2
+
+	import javax.persistence.Column;
+	import javax.persistence.Entity;
 6	import javax.persistence.Id; 7
 8	@Entity
 9	public class CrossingDetails { 10
