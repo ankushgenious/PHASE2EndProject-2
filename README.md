@@ -1,5 +1,5 @@
 # PHASE2EndProject-2
-
+# Railway Crossing Status 
 
 
 import java.io.IOException; 
@@ -500,7 +500,7 @@ public void setLandmark(String landmark) {
 73 }
 74
  
-User.java	Saturday, 3 June, 2023, 7:01 pm
+User.java	
 
 1	package com.daoClasses;
 2	import javax.persistence.Column;
@@ -533,7 +533,7 @@ User.java	Saturday, 3 June, 2023, 7:01 pm
 37 }
 38
  
-hibernate.cfg.xml	Saturday, 3 June, 2023, 7:01 pm
+hibernate.cfg.xml	
 
 1	<?xml version="1.0" encoding="UTF-8"?>
 2	<!DOCTYPE hibernate-configuration PUBLIC
@@ -541,16 +541,15 @@ hibernate.cfg.xml	Saturday, 3 June, 2023, 7:01 pm
 4	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 5	<hibernate-configuration>
 6	<session-factory>
-7	<property                                                                 8 name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+7	<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
 9	<property name="hibernate.connection.password">Nodan7253@?</property>
 10	<property
-11	name="hibernate.connection.url">jdbc:mysql://localhost:3306/railwaycrossingdb</prope
-12	rty>
+11	name="hibernate.connection.url">jdbc:mysql://localhost:3306/railwaycrossingdb</property>
 13	<property name="hibernate.connection.username">root</property>
 14	<property
 15	name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
 16
-17 <property name="hbm2ddl.auto">update</property> 18
+17 <property name="hbm2ddl.auto">update</property> 
 19	<mapping class="com.daoClasses.User"/>
 20	<mapping class="com.daoClasses.CrossingDetails"/>
 21	<mapping class="com.daoClasses.AddFavCrossing"/>
@@ -560,8 +559,9 @@ hibernate.cfg.xml	Saturday, 3 June, 2023, 7:01 pm
 
 1	<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 2	pageEncoding="ISO-8859-1"%> 3 <!DOCTYPE html>
-4 <html> 5 <head>
-6 <meta charset="ISO-8859-1"> 7 <title>Insert title here</title> 8 <style>
+4 <html> 
+<head>
+6 <meta charset="ISO-8859-1">  <title>Insert title here</title>  <style>
 9	#header{
 10	display:flex;
 11	justify-content:space-between;
@@ -757,25 +757,26 @@ hibernate.cfg.xml	Saturday, 3 June, 2023, 7:01 pm
 118	<script type="text/javascript">
  
 
-119	const homeButton = document.getElementById("Home");
-120	homeButton.addEventListener('click', function() {
-121	window.location.href="Home.jsp"; 122
-123 });
-124
-125	const logoutButton = document.getElementById("logoutButton");
-126	logoutButton.addEventListener('click', function(){ 127
-128 window.location.href="LogoutPage.jsp"; 129 });
-130 </script> 131
-132	</body>
-133	</html>
+	const homeButton = document.getElementById("Home");
+	homeButton.addEventListener('click', function() {
+	window.location.href="Home.jsp"; 122
+ });
+
+	const logoutButton = document.getElementById("logoutButton");
+	logoutButton.addEventListener('click', function(){ 127
+ window.location.href="LogoutPage.jsp"; 129 });
+</script> 131
+	</body>
+	</html>
  
 
-1	<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-2	pageEncoding="ISO-8859-1"%> 3 <!DOCTYPE html>
-4 <html> 5 <head>
-6 <meta charset="ISO-8859-1"> 7 <title>Insert title here</title> 8 <style>
-9	#header{
-10	display:flex;
+	<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%> 3 <!DOCTYPE html>
+ <html> 
+	 <head>
+<meta charset="ISO-8859-1"> 7 <title>Insert title here</title> 8 <style>
+	#header{
+	display:flex;
 11	justify-content:space-between;
 12	align-items:center; 13 }
 14	span{
@@ -788,12 +789,15 @@ hibernate.cfg.xml	Saturday, 3 June, 2023, 7:01 pm
 22	text-align:center;
 23	border:none; 24
 25 }
-26 .crossing{ 27
-28 display:flex; 29 }
-30	.crossing button{
-31	margin-right:15px; 32 }
+26 .crossing{ 
+28 display:flex; 
+}
+	.crossing button{
+	margin-right:15px; 
+}
 33	#crossingDetails{
-34	margin-top:20px; 35 }
+34	margin-top:20px; 
+}
 36	#crossingDetails p{
 37	margin:0px;
 38	padding:8px;
@@ -994,15 +998,15 @@ hibernate.cfg.xml	Saturday, 3 June, 2023, 7:01 pm
 60	</body>
 61	</html> 62
  
-LogoutPage.jsp	Saturday, 3 June, 2023, 7:02 pm
-
-1	<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-2	pageEncoding="ISO-8859-1"%> 3 <!DOCTYPE html>
-4 <html> 5 <head>
-6 <meta charset="ISO-8859-1"> 7 <title>Insert title here</title> 8 <style>
-9	#logoutSec{
-10	display:flex;
-11	flex-direction:column;
+LogoutPage.jsp	
+	<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%> 3 <!DOCTYPE html>
+ <html> 
+	 <head>
+ <meta charset="ISO-8859-1"> 7 <title>Insert title here</title> 8 <style>
+	#logoutSec{
+	display:flex;
+	flex-direction:column;
 12	align-items:center;
 13	justify-content:center;
 14	height: 100vh; 15 }
