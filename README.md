@@ -649,22 +649,22 @@ hibernate.cfg.xml
 108	<script> 109
 110	const logoutButton = document.getElementById('logoutButton');
 111	logoutButton.addEventListener('click', function() {
-112	window.location.href = 'LogoutPage.jsp'; 113 });
-114
-115	const homeButton = document.getElementById("adminHome");
-116	homeButton.addEventListener('click', function(e) { 117 window.location.href="AdminHomePage.jsp";
-118
+	window.location.href = 'LogoutPage.jsp'; 113 });
+
+	const homeButton = document.getElementById("adminHome");
+	homeButton.addEventListener('click', function(e) {
+ window.location.href="AdminHomePage.jsp";
+
  
 
-119 });
-120
-121	const acButton = document.getElementById("addCrossing");
-122	acButton.addEventListener('click', function(e) {
-123	window.location.href="AddRailwayCrossing.jsp"; 124 });
-125
-126 </script> 127
-128	</body>
-129	</html> 130
+ });
+	const acButton = document.getElementById("addCrossing");
+	acButton.addEventListener('click', function(e) {
+	window.location.href="AddRailwayCrossing.jsp"; 124 });
+
+ </script> 
+	</body>
+	</html> 
  
 
 1	<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -777,8 +777,8 @@ hibernate.cfg.xml
 <meta charset="ISO-8859-1"> 7 <title>Insert title here</title> 8 <style>
 	#header{
 	display:flex;
-11	justify-content:space-between;
-12	align-items:center; 13 }
+	justify-content:space-between;
+	align-items:center; 13 }
 14	span{
 15	font-size:10px; 16 }
 17	button{
@@ -853,36 +853,34 @@ hibernate.cfg.xml
 97	<p>Landmark: <span>"${row.landmark}"</span></p>
 98	<p>Address: <span>"${row.address}"</span></p> 99
 100	<form action="AddToFavController" method="post">
-101	<input type="hidden" name="crossingName" value="${row.crossing_name}">
-102	<input type="hidden" name="crossingStatus" 103 value="${row.crossing_status}">
-104	<input type="hidden" name="personInCharge" value="${row.person_name}">
-105	<input type="hidden" name="trainSchedule" 106 value="${row.train_schedule}">
-107	<input type="hidden" name="landmark" value="${row.landmark}">
-108	<input type="hidden" name="address" value="${row.address}">
-109	<input type="submit" value="ADD TO FAVOURITE" id="AddFav">
-110	</form>
-111	</div> 112
-113
-114 </c:forEach> 115
-116	<script>
-117	// Get a reference to the submit button
-118	const submitButton = document.getElementById('logoutButton');
+	<input type="hidden" name="crossingName" value="${row.crossing_name}">
+	<input type="hidden" name="crossingStatus" 103 value="${row.crossing_status}">
+	<input type="hidden" name="personInCharge" value="${row.person_name}">
+	<input type="hidden" name="trainSchedule" 106 value="${row.train_schedule}">
+	<input type="hidden" name="landmark" value="${row.landmark}">
+	<input type="hidden" name="address" value="${row.address}">
+	<input type="submit" value="ADD TO FAVOURITE" id="AddFav">
+	</form>
+	</div> 
+</c:forEach> 
+	<script>
+	// Get a reference to the submit button
+	const submitButton = document.getElementById('logoutButton');
  
 
-119	
-120	// Add a click event listener to the submit button
-121	submitButton.addEventListener('click', function() {
-122	// Redirect to the specific page
-123	window.location.href = 'LogoutPage.jsp'; 124 });
-125
-126
-127	const homeButton = document.getElementById("favCrosses");
-128	homeButton.addEventListener('click', function(e) {
-129	window.location.href="FavCrossings.jsp"; 130
-131 });
-132 </script> 133
-134	</body>
-135	</html>
+
+	// Add a click event listener to the submit button
+	submitButton.addEventListener('click', function() {
+	// Redirect to the specific page
+	window.location.href = 'LogoutPage.jsp'; 124 });
+
+	const homeButton = document.getElementById("favCrosses");
+	homeButton.addEventListener('click', function(e) {
+	window.location.href="FavCrossings.jsp"; 130
+ });
+ </script> 
+	</body>
+	</html>
  
 
 1	<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -992,11 +990,11 @@ hibernate.cfg.xml
 53	<tr><td><input type="submit" value="Login" name="login" 54 id="login"></td></tr>
 55 <tr><td><span>Dont have account?<a href="index.jsp">Create new 56 account</a></span></td></tr>
 57	</table>
-58	</form> 59
+58	</form> 
  
 
-60	</body>
-61	</html> 62
+	</body>
+	</html>
  
 LogoutPage.jsp	
 	<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
